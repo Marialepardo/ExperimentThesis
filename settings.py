@@ -1,12 +1,18 @@
 from os import environ
 
 SESSION_CONFIGS = [
-    dict(     
-        name='task',
+    dict(
+        name='InformedConsent',
+        app_sequence=['InformedConsent'],
+        num_demo_participants=1,
+    ),
+   dict(     
+        name='Task',
          app_sequence=['Task'],
          num_demo_participants=1,
+         treatment = 'random',
      ),
-     dict(
+    dict(
         name='Questionnaire',
         app_sequence=['Questionnaire'],
         num_demo_participants=1,
