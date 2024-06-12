@@ -49,6 +49,8 @@ class Intro(Page):
 
         if timeout_happened:
             player.participant.bTimeout = True
+        else:
+            player.participant.bTimeout = False  # Ensure initialization
 
         sLabel = player.participant.label
         if sLabel==None:

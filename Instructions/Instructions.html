@@ -8,12 +8,12 @@
     <!-- Slide 1: Experiment in Short --> 
     <div class="slide"> 
         <div class="text-container">
-            <h2> The experiments - in short: </h2>
+            <h2> The experiment - in short: </h2>
             <ul>
                 <li>This study consists of two parts.</li>
-                <li>In the first part you will be making binary purchasing decisions. In total there will be 38 decisions.</li>
+                <li>In the first part you will be making binary purchasing decisions. In total there will be <b>38 decisions</b>.</li>
                 <li>In the second part you will complete a short questionnare. Everything you fill in will be anonymous. </li>
-                <li>The products that you will observe are <div class="greenbold">real</div> and have been selected from the Dutch supermarket Albert Heijn.</li>
+                <li>The products that you will observe are <div class="greenbold">real</div> and have been selected from the <b>Dutch supermarket Albert Heijn</b>.</li>
             </ul>
             <i>Press → to continue reading </i>
         </div>
@@ -28,15 +28,15 @@
                 <li>Make multiple purchasing decisions (<div class="greenbold"> 38 rounds</div>).</li>
                 <li>In each round, you will see <div class="greenbold">2 products</div> and their characteristics.</li>
                 <li>These characteristics include their price and a carbon emissions label.</li>
-                <li>The products come from a variety of categories and include sweets, nuts, pasta, cereals.</li>
+                <li>The products come from a variety of categories and include <b>sweets, nuts, and muesli cereals</b>.</li>
             </ul>
             <i>Press → to continue reading </i>
         </div>
-        <div class="img-container"> <!--change to example of decision screen -->
-            {{if pos_treatment}}
-            <div class="img-container"> <img src="{{ static C.revealed_pos }}" class="img-instructions" alt="example of decision screen" id="img-example1"> </div>
+        <div class="img-container"> <!--change to example of decision screen for other conditions -->
+            {{if control}}
+            <div class="img-container"> <img src="{{ static C.example_control }}" class="img-instructions" alt="example of decision screen" id="img-example"> </div>
             {{else}}
-            <div class="img-container"> <img src="{{ static C.revealed_neg }}" class="img-instructions" alt="example of decision screen" id="img-example1"> </div>
+            <div class="img-container"> <img src="{{ static C.example_control }}" class="img-instructions" alt="example of decision screen" id="img-example2"> </div>
             {{endif}}
         </div>
     </div>
@@ -46,11 +46,11 @@
         <div class="text-container">
             <h2> Purchasing Decisions </h2>
             <ul>
-                <li>At the beginning of the experiment you will be endowed with 10 euros.</li>
-                <li>Of all the participants who finish the survey, 15% will be randomly selected to be paid out for their decisions.</li>
+                <li>At the beginning of the experiment you will be endowed with <b>€10 euros</b></li>
+                <li>Of all the participants who finish the survey, <b>15%</b> will be randomly selected to be paid out for their decisions.</li>
                 <li>In every round you will be making purchasing decisions and you will be able to use your endowment to pay for them. </li>
-                <li>Although you will be making 48 decisions, only one will be randomly selected and that item will be purchased and given to you. </li>
-                <li>Therefore, the optimal strategy is for every round to choose the product you would like to purchase.</li>
+                <li>Although you will be making <b>38</b> decisions, only <b>one</b> will be randomly selected and that item will be purchased and given to you. </li>
+                <li>Therefore, the optimal strategy is for every round to choose the product you would purchase in real life.</li>
                 <li>If you would not buy any of the products for yourself, please imagine that you are buying the product on behalf of someone else.</li>
                 <li>We ask you to make the following decisions as if you were in a real supermarket. Therefore, always choose the product that you would actually pay for.</li>
             </ul>
@@ -59,7 +59,7 @@
     </div>
     
 
-    <!-- Slide 4: Product Characteristics  ADDDDDDD characteristics modify -->
+    <!-- Slide 4: Product Characteristics -->
     <div class="slide">
         <div class="text-container"> 
             <h2> Product Characteristics </h2>
@@ -68,35 +68,13 @@
                 <li>
                     <strong>Price:</strong> This is the cost you need to pay for the product. The price is in <b>€</b>.
                 </li>
-                    <div class="slide2-description">Higher Price <span>&#8594;</span> lower bonus payments.</div>
-            <!-- Quality-->
+                    <div class="slide2-description">Higher Price <span>&#8594;</span> lower cash payment.</div>
+                <!--Carbon Labels-->
                 <li>
-                    <strong>Quality:</strong> 1-3 star (<img src="{% static C.star_symbol %}" width="20"height="auto"/>) rating.
-                    Products
-                    with more stars (<img src="{% static C.star_symbol %}"width="20"height="auto"/>) are more likely to have
-                    higher quality.
+                    <b>Carbon Labels:</b> show the kilograms of carbon dioxide per kilogram of product for the emissions the life-cycle of the product produces (<img src="{% static C.carbon_green %}"width="20"height="auto"/>).
+                    Products with higher kg of carbon emission (<img src="{% static C.carbon_red %}"width="20"height="auto"/>) are less sustainable. 
                 </li>
-                    <div class="slide2-description">Higher quality <span>&#8594;</span> higher bonus payments.</div>
-                <!--Ecolabel-->
-                {{ if pos_treatment }}
-                <li>
-                    <b>Eco-Label:</b> 1-3 leaf (<img src="{% static C.leaf_symbol %}"width="20"height="auto"/>) rating.
-                    Products
-                    with more leaves (<img src="{% static C.leaf_symbol %}"width="20"height="auto"/>) are more likely
-                    to be more sustainable.
-                </li>
-                    <div class="slide2-description">Higher sustainability <span>&#8594;</span> more trees planted.</div>
-                {{ else }}
-                <!--Negative Ecolabel--> 
-                <li>
-                    <b>Negative Eco-Label:</b> 1-3 negative eco (<img src="{% static C.neg_symbol %}"width="20"height="auto"/>) rating.
-                    Products
-                    with more negative eco-labels (<img src="{% static C.neg_symbol %}"width="20"height="auto"/>) are more likely
-                    to be less sustainable.
-                </li>
-                    <div class="slide2-description"> Lower sustainability <span>&#8594;</span> less trees planted.</div>
-             <!--text1-->
-             {{ endif }}
+                    <div class="slide2-description">Higher amount of kg of CO2  <span>&#8594;</span> less sustainable.</div>
             </ul>
             <i>Press → to continue reading </i>
         </div>
@@ -120,11 +98,11 @@
                 <div class="greenbold">Here is an example.</div>
              </p>
          </div>
-         <!--Gif instead of Hover MAKE GIF OF HOVERING --> 
-         {{if pricep_treatment}}
-            <div class="img-container"> <img class="gif-instructions" src="{% static C.TreatPos %}" />
+         <!--Gif instead of Hover MAKE GIF OF HOVERING for the other conditions and add to if statement--> 
+         {{if control}}
+            <div class="img-container"> <img class="gif-instructions" src="{% static C.example_control %}" />
                 {{else}}   
-            <div class="img-container"> <img class="gif-instructions" src="{% static C.TreatNeg %}" />
+            <div class="img-container"> <img class="gif-instructions" src="{% static C.example_control %}" /> 
                 {{endif}}
             </div>
     </div>
@@ -144,14 +122,9 @@
             <li> You will never pay more than what you get, so don't worry, <b></b>you can't lose money!</b> </li>
         </ul>
     </div>
-        {{if pos_treatment}}
-        <div class="img-container"> <img class="img-instructions" src="{% static C.circled_task_pos %}" />
-         {{else}}
-         <div class="img-container"> <img class="img-instructions" src="{% static C.circled_task_neg %}" />
-         {{endif}}
+        <img src="{% static C.circled_task %}"width="400"height="auto"/>
     </div>
 </div>
-
 
     <!-- Slide 6: Control Questions -->
     <div class="slide"> 
@@ -162,14 +135,14 @@
                 <!--Question 1-->
                 <li>
                     <div class="inst-question">
-                        <label for="Q2"> What percentage of participants will be randomly selected to be paid out?  </label>
+                        <label for="Q1"> What percentage of participants will be randomly selected to be paid out?  </label>
                     </div>
                     <div class="answer-field">
-                        <select name="Q2" id="Q2" class="dropdown ControlQuestions">
+                        <select name="Q1" id="Q1" class="dropdown ControlQuestions">
                             <option value="nothing">--Select--</option>
-                            <option value="a"> 100% </option>
+                            <option value="a"> 15% </option>
                             <option value="b"> 0% </option>
-                            <option value="c"> 15%  </option>
+                            <option value="c"> 100%  </option>
                         </select>
                     </div>
                 </li>
@@ -182,14 +155,14 @@
                 <li>
                     <div class="inst-question">
                         <!--Question-->
-                        <label for="Q5"> How many purchasing rounds will be selected for payoff at the end of the task? 
+                        <label for="Q2"> How many purchasing rounds will be selected for payoff at the end of the task? 
                     </div>
                     <!--drop-down menu-->
-                    <select name="Q5" id="Q5" class="dropdown ControlQuestions">
+                    <select name="Q2" id="Q2" class="dropdown ControlQuestions">
                         <option value="nothing">--Select--</option>
-                        <option value="a"> 1 </option>
+                        <option value="a"> 3 </option>
                         <option value="b"> All of them </option>
-                        <option value="c"> 3 </option>
+                        <option value="c"> 1 </option>
                     </select>
                 </li>
                 <div class="hint" id="hint5">
@@ -201,11 +174,11 @@
                 <li>
                     <div class="inst-question">
                         <!--Question: {{C.iNumTrials}}-->
-                        <label for="Q4"> How many practice trials are there (Answer: 3)</label>
+                        <label for="Q3"> How many practice trials are there (Answer: 3)</label>
                     </div>
                     <div class="answer-field">
                         <!-- Input field -->
-                        <input type="text" name="Q7" id="Q7" class="ControlQuestions">
+                        <input type="text" name="Q3" id="Q3" class="ControlQuestions">
                     </div>
                 </li>
                 <div class="hint" id="hint7">
@@ -225,19 +198,20 @@
 
 <style>
     /* If there are small things, you can always define them within this page. If too much style changes, make a new css file */
-    #img-example {
-        width: 50vw;
+    #img-example1 {
+        width: 450px;
         height: auto;
     }
 
     #img-example2 {
-        width: 75vw;
+        width: 450px;
         height: auto;
     }
 
     .text-container {
         font-size: larger;
     }
+
 </style>
 {{ endblock }}
 

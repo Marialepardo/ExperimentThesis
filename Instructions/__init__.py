@@ -19,7 +19,7 @@ class C(BaseConstants):
     # iNumTrials          = 5
     iNumTrials          = iPracticeRounds + 3*iOptions
     # Template variables
-    AvgDur              = '30'
+    AvgDur              = '20'
     iBonus              = '1.5 euros'
     ## Symbols directory 
     UvA_logo         = 'global/figures/UvA_logo.png'
@@ -48,6 +48,11 @@ class C(BaseConstants):
     one_neg             ="global/figures/negatives/neg-eco-1.png"
     two_neg             ="global/figures/negatives/neg-eco-2.png"
     three_neg           ="global/figures/negatives/neg-eco-3.png"
+
+    example_control = "global/figures/example_control.GIF"
+    carbon_green       = "global/figures/carbon/carbon_1.png"
+    carbon_red      = "global/figures/carbon/carbon_3.png"
+    circled_task = "global/figures/circled.png"
 
     carbon_muesli_green = "global/figures/carbon_muesli_green.png"
     carbon_muesli_yellow = "global/figures/carbon_muesli_yellow.png"
@@ -128,7 +133,7 @@ class Instructions(Page):
         p = player.participant
         return dict(
             lSolutions = [
-                'a','c', 'a', str(C.iPracticeRounds) # Solutions to control questions
+                'a','c', '3', str(C.iPracticeRounds) # Solutions to control questions
             ]
         )
     
@@ -137,7 +142,7 @@ class Instructions(Page):
     def vars_for_template(player: Player):
         p = player.participant
         return dict(  
-            pricep_treatment =  p.sTreatment == "price_prime" 
+            control =  p.sTreatment =="control"
 
         )
 
