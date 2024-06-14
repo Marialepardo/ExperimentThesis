@@ -22,7 +22,6 @@ class C(BaseConstants): #app’s parameters and constants that do not vary from 
     ##OLD CODE 
     lAttrID     = ['i','p','s']
     lAttrNames  = ['Product','Price','Sustainability']
-        #items = ['nuts','sweets','muesli']
     # Template vars
     lColNames   = ['Product A','Product B']
 
@@ -88,8 +87,28 @@ def creating_session(subsession):
     if subsession.round_number == 1: #if practice 
         for player in subsession.get_players():
             p = player.participant #setting treatment on participant not player 
-            ### Randomizing order of attributes
-            lPos = C.lAttrID[:]         # Create hard copy of attributes (price and sustainability)
+            
+            ###Counterbalancing the order of attributes
+
+        # Attributes
+            attr_pairs = [('i', 'Product'), ('p', 'Price'), ('s', 'Sustainability')]
+        
+        # Shuffle the pairs except the first one
+            fixed_pair = attr_pairs[0]
+            shuffle_pairs = attr_pairs[1:]
+            random.shuffle(shuffle_pairs)
+        
+        # Combine the fixed pair with the shuffled pairs
+            combined_pairs = [fixed_pair] + shuffle_pairs
+        
+        # Unzip the pairs into lAttrID and lAttrNames
+            lAttrID, lAttrNames = zip(*combined_pairs)
+        
+        # Convert tuples back to lists
+            p.session.vars['lAttrID'] = list(lAttrID)
+            p.session.vars['lAttrNames'] = list(lAttrNames)
+
+            lPos = list(lAttrID)  #C.lAttrID[:]         # Create hard copy of attributes (price and sustainability)
             #random.shuffle(lPos)        # Shuffle order
             p.lPos = lPos               # Store it as a participant variable
             #### Select trial for payment (from the first round after practice rounds to the last)
@@ -187,6 +206,11 @@ def attributeList(lValues,lPos,treatment):
 
 
 
+
+
+
+
+
 # PAGES
 class Decision(Page):
     form_model      = 'player'
@@ -222,6 +246,7 @@ class Decision(Page):
         if player.round_number == p.iSelectedTrial: 
             p.bChoseA = player.iChooseB == '0'   
             print(f"Decision in selected trial recorded: {p.bChoseA}")
+    
 
 class FixCross(Page):
     form_model = 'player'
