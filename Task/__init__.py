@@ -11,7 +11,7 @@ Your app description
 class C(BaseConstants): #app’s parameters and constants that do not vary from player to player.
     NAME_IN_URL = 'Task'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 41 #I changed this to 38
+    NUM_ROUNDS = 38
     NUM_PROUNDS = 3
     
     # Images 
@@ -34,10 +34,10 @@ class C(BaseConstants): #app’s parameters and constants that do not vary from 
 
 
     # Confidence page ##Probably not going to use confidence ratings 
-    iLikertConf     = 7
-    sConfQuestion   = f"From 1 to {iLikertConf}, how confident are you on your choice?"
-    sLeftConf       = "Very unsure"
-    sRightConf      = "Very sure"
+    #iLikertConf     = 7
+    #sConfQuestion   = f"From 1 to {iLikertConf}, how confident are you on your choice?"
+    #sLeftConf       = "Very unsure"
+    #sRightConf      = "Very sure"
 
 
 class Subsession(BaseSubsession):
@@ -70,15 +70,14 @@ class Player(BasePlayer): #Here we fill out our data model (table) for our playe
     sEndDec     = models.StringField()
     sStartCross = models.StringField()
     sEndCross   = models.StringField()
-    sStartConf = models.StringField() #i dont think I need these 
-    sEndConf   = models.StringField()
+    #sStartConf = models.StringField() 
+    #sEndConf   = models.StringField()
 
 
     # Others 
     sBetweenBtn = models.StringField() #Assuming this means seconds between button
+    lRoundOrder = models.StringField()  # To store the randomized round order
  
- #To assign participants to different treatment groups, you use creating_session
-
 
 def creating_session(subsession):
     # Load Session variables
@@ -86,9 +85,9 @@ def creating_session(subsession):
     if subsession.round_number == 1: #if practice 
         for player in subsession.get_players():
             p = player.participant #setting treatment on participant not player 
-            #### Randomizing order of attributes
+            ### Randomizing order of attributes
             lPos = C.lAttrID[:]         # Create hard copy of attributes (price and sustainability)
-            random.shuffle(lPos)        # Shuffle order
+            #random.shuffle(lPos)        # Shuffle order
             p.lPos = lPos               # Store it as a participant variable
             #### Select trial for payment (from the first round after practice rounds to the last)
             p.iSelectedTrial = random.randint(C.NUM_PROUNDS+1,C.NUM_ROUNDS)
@@ -101,111 +100,54 @@ def creating_session(subsession):
                 p.sTreatment = s.config['treatment']
                 print(f"Treatment assigned from config: {p.sTreatment}")  # Print the treatment from config
 
+            # Randomize the order of rounds
+            lRoundOrder = list(range(1, C.NUM_ROUNDS + 1))
+            random.shuffle(lRoundOrder)
+            p.lRoundOrder = ','.join(map(str, lRoundOrder))
+            print(f"Round order for participant {p.id_in_session}: {p.lRoundOrder}")
 
-    for player in subsession.get_players(): #for loop that iterates over each player in the list
+        #fix values 
+    lValuesMap = { 
+        #nuts
+    1: [1, 0, 1, 2], 2: [2, 0, 1, 2], 3: [0,3,2,1], 4: [4, 0, 1, 2],
+    5: [0,1,3,2], 6: [0,2,3,2], 7: [3, 0, 2, 3], 8: [4, 0, 2, 3],
+    9: [0,1,3,1], 10: [0,2,3,1], 11: [3, 0, 1, 3], 12: [4, 0, 1, 3],
+        #sweets
+    13: [5,6,5,4], 14: [7, 5, 4, 5], 15: [5,8,5,4], 16: [9, 5, 4, 5],
+    17: [5,6,6,5], 18: [7, 5, 5, 6], 19: [5,8,6,5], 20: [9, 5, 5, 6],
+    21: [5,6,6,4], 22: [7, 5, 4, 6], 23: [5,8,6,4], 24: [9, 5, 4, 6],
+        #muesli
+    25: [10,11,8,7], 26: [10,12,8,7], 27: [10,13,8,7], 28: [10,14,8,7],
+    29: [11, 10, 8, 9], 30: [10,12,9,8], 31: [13, 10, 8, 9], 32: [10,14,9,8],
+    33: [10,11,9,7], 34: [12, 10, 7, 9], 35: [10,12,9,7], 36: [10,14,9,7],
+    37: [1,0,3,1], 38: [10, 11, 7, 9]
+}
+
+    for player in subsession.get_players():
         p = player.participant
-        player.sBetweenBtn = random.choice(['left','right']) #Randomly assign 'left' or 'right' to sBetweenBtn
+        player.sBetweenBtn = random.choice(['left', 'right']) #Randomly assign 'left' or 'right' to sBetweenBtn
+        current_round = subsession.round_number
+        lRoundOrder = list(map(int, p.lRoundOrder.split(',')))
+        randomized_round = lRoundOrder[current_round - 1]
+
         if player.round_number <= C.NUM_PROUNDS: 
             # Practice Trials
             print(player.round_number, "practice")  
             if player.round_number == 1:
-                lValues = [1,0, 1,2] #Preset values for round 1 
+                lValues = [4,0, 1,2] #Preset values for round 1 
             elif player.round_number == 2:
-                lValues = [3,0, 1,2] #Preset values for round 2 
+                lValues = [4,0, 1,2] #Preset values for round 2 
             elif player.round_number == 3:
-                lValues = [11,10,8,9] #Preset values for round 3 
-    
+                lValues = [4,0, 1,2] #Preset values for round 3 
         else:
-            # Normal Trials
-            print(player.round_number, "normal")
-            if player.round_number == 4:
-                lValues = [1,0, 1,2] #Preset values for round 1 
-            elif player.round_number == 5:
-                lValues = [2,0, 1,2] #Preset values for round 2 
-            elif player.round_number == 6:
-                lValues = [3,0, 1,2] #Preset values for round 3 
-            elif player.round_number == 7:
-                lValues = [4,0, 1,2] #Preset values for round 4 
-            elif player.round_number == 8:
-                lValues = [1,0, 2,3] #Preset values for round 5 
-            elif player.round_number == 9:
-                lValues = [2,0, 2,3] #Preset values for round 6 
-            elif player.round_number == 10:
-                lValues = [3,0, 2,3] #Preset values for round 7
-            elif player.round_number == 11:
-                lValues = [4,0, 2,3] #Preset values for round 8 
-            elif player.round_number == 12:
-                lValues = [1,0, 1,3] #Preset values for round 9 
-            elif player.round_number == 13:
-                lValues = [2,0, 1,3] #Preset values for round 10 
-            elif player.round_number == 14:
-                lValues = [3,0, 1,3] #Preset values for round 11 
-            elif player.round_number == 15:
-                lValues = [4,0, 1,3] #Preset values for round 12
-            elif player.round_number == 16:
-                lValues = [6,5, 4,5] #Preset values for round 13
-            elif player.round_number == 17:
-                lValues = [7,5, 4,5] #Preset values for round 14
-            elif player.round_number == 18:
-                lValues = [8,5, 4,5] #Preset values for round 15
-            elif player.round_number == 19:
-                lValues = [9,5, 4,5] #Preset values for round 16 
-            elif player.round_number == 20:
-                lValues = [6,5, 5,6] #Preset values for round 17
-            elif player.round_number == 21:
-                lValues = [7,5, 5,6] #Preset values for round 18
-            elif player.round_number == 22:
-                lValues = [8,5, 5,6] #Preset values for round 19
-            elif player.round_number == 23:
-                lValues = [9,5, 5,6] #Preset values for round 20
-            elif player.round_number == 24:
-                lValues = [6,5, 4,6] #Preset values for round 21
-            elif player.round_number == 25:
-                lValues = [7,5, 4,6] #Preset values for round 22
-            elif player.round_number == 26:
-                lValues = [8,5, 4,6] #Preset values for round 23
-            elif player.round_number == 27:
-                lValues = [9,5, 4,6] #Preset values for round 24
-            elif player.round_number == 28:
-                lValues = [11,10, 7,8] #Preset values for round 25
-            elif player.round_number == 29:
-                lValues = [12,10, 7,8] #Preset values for round 26
-            elif player.round_number == 30:
-                lValues = [13,10, 7,8] #Preset values for round 27
-            elif player.round_number == 31:
-                lValues = [14,10, 7,8] #Preset values for round 28
-            elif player.round_number == 32:
-                lValues = [11,10, 8,9] #Preset values for round 29
-            elif player.round_number == 33:
-                lValues = [12,10, 8,9] #Preset values for round 30
-            elif player.round_number == 34:
-                lValues = [13,10, 8,9] #Preset values for round 31
-            elif player.round_number == 35:
-                lValues = [14,10, 8,9] #Preset values for round 32 
-            elif player.round_number == 36:
-                lValues = [11,10, 7,9] #Preset values for round 33
-            elif player.round_number == 37:
-                lValues = [12,10, 7,9] #Preset values for round 34
-            elif player.round_number == 38:
-                lValues = [13,10, 7,9] #Preset values for round 35
-            elif player.round_number == 39:
-                lValues = [14,10, 7,9] #Preset values for round 36
-            elif player.round_number == 40:
-                lValues = [0,1, 1,3] #Preset values for round 37
-            elif player.round_number == 41:
-                lValues = [10,10, 7,9] #Preset values for round 38
-            #lValues = [1,1, 1,1] # lValues= p.database[int(player.round_number-4)]
-            print(lValues)
-        player.P1,player.P2, player.S1,player.S2 = lValues #assigns lValues to the corresponding attributes of the player object.
-        #if 1 <= player.round_number <= 12:
-        #    product = ['nuts']
-        #elif 13 <= player.round_number <= 24:
-        #    product = ['sweets']
-        #else:
-        #    product = ['muesli']
+            print(player.round_number, "normal") #normal rounds randomized 
+            if randomized_round in lValuesMap:
+                lValues = lValuesMap[randomized_round]
+                print(f"Round {current_round} (Randomized to {randomized_round}): {lValues}") 
+            else: lValues = [1,1,1,1] # Default in case of missing key
 
-        #player.S1,player.S2,player.P2,player.P2 = lValues
-
+        player.P1,player.P2, player.S1,player.S2 = lValues
+    
 def attributeList(lValues,lPos,treatment):
     lAttributes = []
     lOrder = []
@@ -213,7 +155,7 @@ def attributeList(lValues,lPos,treatment):
     for i in range(len(C.lAttrID)): #where lAttrID = ['p','s']
         id                  = C.lAttrID[i]      
         name                = C.lAttrNames[i]
-        #productname             = C.product[i]  
+        #productname        = C.product[i]  
         # Store the order of the list
         lOrder.append(lPos.index(id))
         lPaths = [] #Creates an empty list lPaths to store image paths.
@@ -239,11 +181,10 @@ def attributeList(lValues,lPos,treatment):
 
 
 # PAGES
-
 class Decision(Page):
     form_model      = 'player'
     form_fields     = [ 'sChoice']
-    # form_fields     = [ 'sStartDec','sEndDec', 'dRT_dec', 'sNames', 'sDT' , 'dTime2first', 'sChoice']
+    form_fields     = [ 'sStartDec','sEndDec', 'dRT_dec', 'sNames', 'sDT' , 'sChoice'] #'dTime2first'
     
     @staticmethod
     def vars_for_template(player: Player): # vars_for_template passes variables to the template so you can access them there
@@ -251,23 +192,20 @@ class Decision(Page):
         p = player.participant
         lPos = p.lPos
         treatment=p.sTreatment
-
-        # Candidates values          
       
         lValues = [[player.P1,player.P2],[player.S1,player.S2]]
         print(lValues)
         return dict(
             lAttr = attributeList(lValues,lPos,treatment), #treatment
         )
-    
+
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         p = player.participant
         
         if player.round_number == p.iSelectedTrial: 
-            p.bChoseA = player.iChooseB == 0   
+            p.bChoseA = player.iChooseB == '0'   
             print(f"Decision in selected trial recorded: {p.bChoseA}")
-
 
 class FixCross(Page):
     form_model = 'player'
@@ -300,8 +238,20 @@ class Confidence(Page):
             lScale = list(range(1,C.iLikertConf+1))
         )
 
+class Message(Page):
+    template_name = 'global/Message.html'
 
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_PROUNDS
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+            MessageText = 'The practice rounds ended. <br> The experiment will start now.'
+        )
 
-page_sequence = [SideButton, Decision, Confidence]
+page_sequence = [SideButton, Decision, Message]
+#page_sequence = [SideButton, Decision, Confidence]
 
  

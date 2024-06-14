@@ -1,7 +1,5 @@
 {{ extends "global/Slider.html" }}
 
-
-
 {{ block Slides }}
 <!-- <input type="hidden" id="no-checks"> -->
 
@@ -12,7 +10,7 @@
             <ul>
                 <li>This study consists of two parts.</li>
                 <li>In the first part you will be making binary purchasing decisions. In total there will be <b>38 decisions</b>.</li>
-                <li>In the second part you will complete a short questionnare. Everything you fill in will be anonymous. </li>
+                <li>In the second part you will complete a short questionnaire. Everything you fill in will be anonymous. </li>
                 <li>The products that you will observe are <div class="greenbold">real</div> and have been selected from the <b>Dutch supermarket Albert Heijn</b>.</li>
             </ul>
             <i>Press → to continue reading </i>
@@ -57,7 +55,6 @@
             <i>Press → to continue reading </i>
         </div>
     </div>
-    
 
     <!-- Slide 4: Product Characteristics -->
     <div class="slide">
@@ -80,19 +77,15 @@
         </div>
     </div>
 
-
-
-    <!-- Slide 4: Purchasing Platform -->
+    <!-- Slide 5: Purchasing Platform -->
     <div class="slide">
         <div class="text-container">
             <h2> Purchasing Platform </h2>
             <p> 
-                The product characteristics (Price, Quality) for each product will be
-                hidden
+                The product characteristics (Price, Quality) for each product will be hidden.
             </p>
             <p>
-            To reveal the information, all you need to do is to move your mouse on top it 
-            and the information will be revealed. 
+            To reveal the information, all you need to do is to move your mouse on top of it, and the information will be revealed. 
             </p>
              <p>
                 <div class="greenbold">Here is an example.</div>
@@ -100,33 +93,39 @@
          </div>
          <!--Gif instead of Hover MAKE GIF OF HOVERING for the other conditions and add to if statement--> 
          {{if control}}
-            <div class="img-container"> <img class="gif-instructions" src="{% static C.example_control %}" />
-                {{else}}   
-            <div class="img-container"> <img class="gif-instructions" src="{% static C.example_control %}" /> 
-                {{endif}}
-            </div>
+            <div class="img-container"> <img class="gif-instructions" src="{% static C.example_control %}" /> </div>
+         {{else}}   
+            <div class="img-container"> <img class="gif-instructions" src="{% static C.example_control %}" /> </div>
+         {{endif}}
     </div>
 
-    <!--Slide 5: one more time '' -->
+    <!--Slide 6: one more time -->
    <div class="slide">
-    <div class="text-container">
-        <h2> Product Selection </h2>
-        <ul>
-            <li> Once you have decided, choose the product you want by clicking on the buttons below ("Product A", "Product B"). </li>
-            <li> If you didn't quite get it yet, don't worry! There will be <div class="greenbold">3 practice rounds</div>
-                before the real
-                experiment starts. </li>
-            <li> At the end of the experiment, we will choose <u>1 of the rounds</u> (randomly), and you will
-                purchase the
-                chosen product of that round with your endowment. The remaining part of the endowment will be given to you in cash. Practice rounds will never be selected. </li>
-            <li> You will never pay more than what you get, so don't worry, <b></b>you can't lose money!</b> </li>
-        </ul>
+        <div class="text-container">
+            <h2> Product Selection </h2>
+            <ul>
+                <li> Once you have decided, choose the product you want by clicking on the buttons below ("Product A", "Product B"). </li>
+                <li> If you didn't quite get it yet, don't worry! There will be <div class="greenbold">3 practice rounds</div> before the real experiment starts. </li>
+                <li> At the end of the experiment, we will choose <u>1 of the rounds</u> (randomly), and you will purchase the chosen product of that round with your endowment. The remaining part of the endowment will be given to you in cash. Practice rounds will never be selected. </li>
+                <li> You will never pay more than what you get, so don't worry, <b>you can't lose money!</b> </li>
+            </ul>
+        </div>
+        <img src="{% static C.circled_task %}" width="400" height="auto"/>
     </div>
-        <img src="{% static C.circled_task %}"width="400"height="auto"/>
-    </div>
-</div>
 
-    <!-- Slide 6: Control Questions -->
+    <!--Slide 7: let's get started -->
+    <div class="slide">
+        <div class="text-container">
+            <h2> Practice Rounds </h2>
+            <ul>
+                <li> Before the practice rounds, we will ask some <div class="greenbold">questions</div> to ensure the instructions were clear. </li>
+                <li> Once you have those right, you can do the <div class="greenbold">3 practice rounds.</div> </li>
+                <li>These practice rounds do not count for the real experiment and ensure you understand the task. </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 8: Control Questions -->
     <div class="slide"> 
         <div class="text-container questions-container">
             <h2> Control Questions </h2>
@@ -135,7 +134,7 @@
                 <!--Question 1-->
                 <li>
                     <div class="inst-question">
-                        <label for="Q1"> What percentage of participants will be randomly selected to be paid out?  </label>
+                        <label for="Q1"> What percentage of participants will be randomly selected to be paid out? </label>
                     </div>
                     <div class="answer-field">
                         <select name="Q1" id="Q1" class="dropdown ControlQuestions">
@@ -154,43 +153,45 @@
                 <!-- Question 2 -->
                 <li>
                     <div class="inst-question">
-                        <!--Question-->
-                        <label for="Q2"> How many purchasing rounds will be selected for payoff at the end of the task? 
+                        <label for="Q2"> How many purchasing rounds will be selected for payoff at the end of the task? </label>
                     </div>
-                    <!--drop-down menu-->
-                    <select name="Q2" id="Q2" class="dropdown ControlQuestions">
-                        <option value="nothing">--Select--</option>
-                        <option value="a"> 3 </option>
-                        <option value="b"> All of them </option>
-                        <option value="c"> 1 </option>
-                    </select>
+                    <div class="answer-field">
+                        <select name="Q2" id="Q2" class="dropdown ControlQuestions">
+                            <option value="nothing">--Select--</option>
+                            <option value="a"> 3 </option>
+                            <option value="b"> All of them </option>
+                            <option value="c"> 1 </option>
+                        </select>
+                    </div>
                 </li>
                 <div class="hint" id="hint5">
                     Incorrect: see slide 3
                 </div>
 
-
                 <!--Question 3-->
                 <li>
                     <div class="inst-question">
-                        <!--Question: {{C.iNumTrials}}-->
                         <label for="Q3"> How many practice trials are there (Answer: 3)</label>
                     </div>
                     <div class="answer-field">
-                        <!-- Input field -->
                         <input type="text" name="Q3" id="Q3" class="ControlQuestions">
                     </div>
                 </li>
                 <div class="hint" id="hint7">
                     Incorrect: see the previous slide
                 </div>
+                
+                <!-- Submit answers and Next button (next button appears when user answers all questions correctly)-->
                 <li>
-            <!-- Submit answers and Next button (next button appears when user answers all questions correctly)-->
-                <button type="button" id="submitAnswer" class="button" onclick="ValidateSaveSubmit()"> Submit </button>
+                    <button type="button" id="submitAnswer" class="button" onclick="ValidateSaveSubmit()"> Submit </button>
+                </li>
+                <li>
+                    As soon as you finish these questions and submit you will begin with the practice rounds. Good luck!  
+                </li>
+            </ul>
         </div>
-        
     </div>
-    
+
 {{ endblock }}
 
 {{ block app_styles }}
@@ -199,7 +200,7 @@
 <style>
     /* If there are small things, you can always define them within this page. If too much style changes, make a new css file */
     #img-example1 {
-        width: 450px;
+        width: 400px;
         height: auto;
     }
 
@@ -218,34 +219,34 @@
 {{ block app_scripts }}
 <script>
 
-  const lSolutions    =  js_vars.lSolutions;     // Solutions for Check-up questions in the last slide
+  const lSolutions = js_vars.lSolutions; // Solutions for Check-up questions in the last slide
 
   function ValidateSaveSubmit() {
     validateAnswers();
   }
 
-  window.addEventListener("DOMContentLoaded", ()=>{
+  window.addEventListener("DOMContentLoaded", () => {
     // Get divs to add tooltips
     let lGreen = document.getElementsByClassName("greenbold");
     let lBlue = document.getElementsByClassName("bluebold");
     let lRed = document.getElementsByClassName("redbold");
+
     // Green tooltip
-    for (let i=0;i<lGreen.length;i++) {
-        let span = document.createElement('span')
+    for (let i = 0; i < lGreen.length; i++) {
+        let span = document.createElement('span');
         span.innerHTML = "You";
-        span.classList.add("tooltiptext")
+        span.classList.add("tooltiptext");
         lGreen[i].appendChild(span);
     }
 
     // Blue tooltip
-    for (let i=0;i<lBlue.length;i++) {
-        let span = document.createElement('span')
+    for (let i = 0; i < lBlue.length; i++) {
+        let span = document.createElement('span');
         span.innerHTML = "Previous participants";
-        span.classList.add("tooltiptext")
+        span.classList.add("tooltiptext");
         lBlue[i].appendChild(span);
     }
-  })
+  });
 </script>
-
 {{ endblock }}
 

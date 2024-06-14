@@ -19,7 +19,7 @@ class C(BaseConstants):
     # iNumTrials          = 5
     iNumTrials          = iPracticeRounds + 3*iOptions
     # Template variables
-    AvgDur              = '20'
+    AvgDur              = '15'
     iBonus              = '1.5 euros'
     ## Symbols directory 
     UvA_logo         = 'global/figures/UvA_logo.png'
@@ -125,7 +125,6 @@ def creating_session(subsession):
 
 class Instructions(Page):
     form_model = 'player'
-    #form_fields = ['sTreesLocation']
 
     @staticmethod
     def js_vars(player: Player):

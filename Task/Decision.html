@@ -22,7 +22,7 @@
     <div class="row" id="row-{{ attr.id }}">
         <div class="table-item right row-name" > {{ attr.name }} </div>
         {{ for v in attr.lValues }}
-            <div class="table-item mt-tgt cell cell-{{attr.id}}{{ forloop.counter }} row-{{attr.id}} col-{{forloop.counter}} hide" id="cell-{{attr.id}}{{ forloop.counter }}"> <img src="{{ static v }}" class="img-button"> </div>
+            <div class="table-item mt-tgt cell cell-{{attr.id}}{{ forloop.counter }} row-{{attr.id}} col-{{forloop.counter}} hide" id="cell-{{attr.id}}{{ forloop.counter }}"> <img src="{{ static v }}" class="img-button" style="width: 150px; height: auto;" > </div>
         {{ endfor }}
     </div>
     {{ endfor }}
