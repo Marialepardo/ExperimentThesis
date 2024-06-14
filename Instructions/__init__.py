@@ -22,64 +22,10 @@ class C(BaseConstants):
     AvgDur              = '15'
     iBonus              = '1.5 euros'
     ## Symbols directory 
-    UvA_logo         = 'global/figures/UvA_logo.png'
-    path1               = 'global/figures/example1.png'
-    path2               = 'global/figures/example2.png'
-    pathGif             = 'global/figures/demoMouseCrop.gif'
-    pathData            = '_static/global/files/Data4Exp.csv'
-    imgCandidate        = "global/figures/candidate.png"
-    imgNumbers          = "global/figures/numbers/n_"
-    imgStars          = "global/figures/stars/star_"
-    imgLeafs        ="global/figures/leafs/leaf_"
-    imgNegatives    ="global/figures/negatives/neg-eco-"
-    OneTreePlanted      = "global/figures/Logo_OneTreePlanted.png"
-    star_symbol                = "global/figures/one_star.png"
-    leaf_symbol                = "global/figures/one_leaf.png"
-    neg_symbol             = "global/figures/one-neg.png"
-    revealed_pos       = "global/figures/revealed_task_pos.png"
-    revealed_neg        = "global/figures/revealed_task_neg.png"
-    circled_task_pos        = "global/figures/circled_task_pos.png"
-    circled_task_neg        = "global/figures/circled_task_neg.png"
-    TreatPos          = "global/figures/TreatPos.gif"
-    TreatNeg          = "global/figures/TreatNeg.gif"
-    one_leaf            ="global/figures/leafs/leaf_1.png"
-    two_leaf            ="global/figures/leafs/leaf_2.png"
-    three_leaf          ="global/figures/leafs/leaf_3.png"
-    one_neg             ="global/figures/negatives/neg-eco-1.png"
-    two_neg             ="global/figures/negatives/neg-eco-2.png"
-    three_neg           ="global/figures/negatives/neg-eco-3.png"
-
     example_control = "global/figures/example_control.GIF"
     carbon_green       = "global/figures/carbon/carbon_1.png"
     carbon_red      = "global/figures/carbon/carbon_3.png"
     circled_task = "global/figures/circled.png"
-
-    carbon_muesli_green = "global/figures/carbon_muesli_green.png"
-    carbon_muesli_yellow = "global/figures/carbon_muesli_yellow.png"
-    carbon_muesli_red = "global/figures/carbon_muesli_red.png"
-    muesli_price_0 = "global/figures/muesli_price_0.png"
-    muesli_price_1 = "global/figures/muesli_price_1.png"
-    muesli_price_2 = "global/figures/muesli_price_2.png"
-    muesli_price_3 = "global/figures/muesli_price_3.png"
-    muesli_price_4 = "global/figures/muesli_price_4.png"
-
-    carbon_nuts_green = "global/figures/carbon_nuts_green.png"
-    carbon_nuts_yellow = "global/figures/carbon_nuts_yellow.png"
-    carbon_nuts_red = "global/figures/carbon_nuts_red.png"
-    nuts_price_0 = "global/figures/nuts_price_0.png"
-    nuts_price_1 = "global/figures/nuts_price_1.png"
-    nuts_price_2 = "global/figures/nuts_price_2.png"
-    nuts_price_3 = "global/figures/nuts_price_3.png"
-    nuts_price_4 = "global/figures/nuts_price_4.png"
-
-    carbon_sweets_green = "global/figures/carbon_sweets_green.png"
-    carbon_sweets_yellow = "global/figures/carbon_sweets_yellow.png"
-    carbon_sweets_red = "global/figures/carbon_sweets_red.png"
-    sweets_price_0 = "global/figures/sweets_price_0.png"
-    sweets_price_1 = "global/figures/sweets_price_1.png"
-    sweets_price_2 = "global/figures/sweets_price_2.png"
-    sweets_price_3 = "global/figures/sweets_price_3.png"
-    sweets_price_4 = "global/figures/sweets_price_4.png"
 
     # Links 
     # You might want to have different links, for when they submit different answers
@@ -117,7 +63,6 @@ def creating_session(subsession):
             # Randomly selected trial
             p.iSelectedTrial = random.randint(C.iPracticeRounds,C.iNumTrials)
             ## LOAD HERE YOUR DATABASE 
-
 
 
 # PAGES

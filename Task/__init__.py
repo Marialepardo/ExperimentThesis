@@ -16,12 +16,13 @@ class C(BaseConstants): #app’s parameters and constants that do not vary from 
     
     # Images 
     carbon      = "global/figures/carbon/carbon_"
-    price        = "global/figures/price/price_"
+    price       = "global/figures/price/price_"
+    items       = "global/figures/items/items_"
 
     ##OLD CODE 
-    lAttrID     = ['p','s']
-    lAttrNames  = ['Price','Sustainability']
-    #product = ['nuts','sweets','muesli']
+    lAttrID     = ['i','p','s']
+    lAttrNames  = ['Product','Price','Sustainability']
+        #items = ['nuts','sweets','muesli']
     # Template vars
     lColNames   = ['Product A','Product B']
 
@@ -56,10 +57,12 @@ class Player(BasePlayer): #Here we fill out our data model (table) for our playe
     dRT_conf    = models.FloatField()
 
     # 
-    P1=models.IntegerField()
-    P2=models.IntegerField()
-    S1=models.IntegerField()
-    S2=models.IntegerField()
+    I1=models.IntegerField() #item 1
+    I2=models.IntegerField() #item 2
+    P1=models.IntegerField() #price 1
+    P2=models.IntegerField() #price 2
+    S1=models.IntegerField() #sustainability 1
+    S2=models.IntegerField() #sustainability 2
 
     # Attention variables
     sNames      = models.LongStringField(blank=True) 
@@ -92,6 +95,7 @@ def creating_session(subsession):
             #### Select trial for payment (from the first round after practice rounds to the last)
             p.iSelectedTrial = random.randint(C.NUM_PROUNDS+1,C.NUM_ROUNDS)
            
+           # This is not necessary! You can just call upon it once (in the informed consent)
            #randomizing assignment to one of the three conditions 
             if s.config['treatment']=='random':
                 p.sTreatment = random.choice(['price_prime','sustainability_prime','control'])
@@ -106,22 +110,23 @@ def creating_session(subsession):
             p.lRoundOrder = ','.join(map(str, lRoundOrder))
             print(f"Round order for participant {p.id_in_session}: {p.lRoundOrder}")
 
-        #fix values 
+        #fix values     
     lValuesMap = { 
-        #nuts
-    1: [1, 0, 1, 2], 2: [2, 0, 1, 2], 3: [0,3,2,1], 4: [4, 0, 1, 2],
-    5: [0,1,3,2], 6: [0,2,3,2], 7: [3, 0, 2, 3], 8: [4, 0, 2, 3],
-    9: [0,1,3,1], 10: [0,2,3,1], 11: [3, 0, 1, 3], 12: [4, 0, 1, 3],
-        #sweets
-    13: [5,6,5,4], 14: [7, 5, 4, 5], 15: [5,8,5,4], 16: [9, 5, 4, 5],
-    17: [5,6,6,5], 18: [7, 5, 5, 6], 19: [5,8,6,5], 20: [9, 5, 5, 6],
-    21: [5,6,6,4], 22: [7, 5, 4, 6], 23: [5,8,6,4], 24: [9, 5, 4, 6],
-        #muesli
-    25: [10,11,8,7], 26: [10,12,8,7], 27: [10,13,8,7], 28: [10,14,8,7],
-    29: [11, 10, 8, 9], 30: [10,12,9,8], 31: [13, 10, 8, 9], 32: [10,14,9,8],
-    33: [10,11,9,7], 34: [12, 10, 7, 9], 35: [10,12,9,7], 36: [10,14,9,7],
-    37: [1,0,3,1], 38: [10, 11, 7, 9]
+    # nuts
+    1: [1, 2, 1, 0, 1, 2], 2: [1, 2, 2, 0, 1, 2], 3: [2, 1, 0, 3, 2, 1], 4: [1, 2, 4, 0, 1, 2],
+    5: [3, 2, 0, 1, 3, 2], 6: [3, 2, 0, 2, 3, 2], 7: [2, 3, 3, 0, 2, 3], 8: [2, 3, 4, 0, 2, 3],
+    9: [3, 1, 0, 1, 3, 1], 10: [3, 1, 0, 2, 3, 1], 11: [1, 3, 3, 0, 1, 3], 12: [1, 3, 4, 0, 1, 3],
+    # sweets
+    13: [5, 4, 5, 6, 5, 4], 14: [4, 5, 7, 5, 4, 5], 15: [5, 4, 5, 8, 5, 4], 16: [4, 5, 9, 5, 4, 5],
+    17: [6, 5, 5, 6, 6, 5], 18: [5, 6, 7, 5, 5, 6], 19: [6, 5, 5, 8, 6, 5], 20: [5, 6, 9, 5, 5, 6],
+    21: [6, 4, 5, 6, 6, 4], 22: [4, 6, 7, 5, 4, 6], 23: [6, 4, 5, 8, 6, 4], 24: [4, 6, 9, 5, 4, 6],
+    # muesli
+    25: [8, 7, 10, 11, 8, 7], 26: [8, 7, 10, 12, 8, 7], 27: [8, 7, 10, 13, 8, 7], 28: [7, 8, 14, 10, 7, 8],
+    29: [8, 9, 11, 10, 8, 9], 30: [9, 8, 10, 12, 9, 8], 31: [8, 9, 13, 10, 8, 9], 32: [9, 8, 10, 14, 9, 8],
+    33: [9, 7, 10, 11, 9, 7], 34: [7, 9, 12, 10, 7, 9], 35: [9, 7, 10, 13, 9, 7], 36: [9, 7, 10, 14, 9, 7],
+    37: [3, 1, 1, 0, 3, 1], 38: [7, 9, 10, 11, 7, 9]
 }
+
 
     for player in subsession.get_players():
         p = player.participant
@@ -134,19 +139,19 @@ def creating_session(subsession):
             # Practice Trials
             print(player.round_number, "practice")  
             if player.round_number == 1:
-                lValues = [4,0, 1,2] #Preset values for round 1 
+                lValues = [1,2, 4,0, 1,2] #Preset values for round 1 
             elif player.round_number == 2:
-                lValues = [4,0, 1,2] #Preset values for round 2 
+                lValues = [1,2, 4,0, 1,2] #Preset values for round 2 
             elif player.round_number == 3:
-                lValues = [4,0, 1,2] #Preset values for round 3 
+                lValues = [1,2, 4,0, 1,2] #Preset values for round 3 
         else:
             print(player.round_number, "normal") #normal rounds randomized 
             if randomized_round in lValuesMap:
                 lValues = lValuesMap[randomized_round]
                 print(f"Round {current_round} (Randomized to {randomized_round}): {lValues}") 
-            else: lValues = [1,1,1,1] # Default in case of missing key
+            else: lValues = [1,1,1,1,1,1] # Default in case of missing key
 
-        player.P1,player.P2, player.S1,player.S2 = lValues
+        player.I1, player.I2, player.P1,player.P2, player.S1,player.S2 = lValues
     
 def attributeList(lValues,lPos,treatment):
     lAttributes = []
@@ -162,8 +167,10 @@ def attributeList(lValues,lPos,treatment):
         for v in lValues[i]:
             if id=="s":  #iterates through carbon label folders 
                  lPaths.append(f"{C.carbon}{v}.png") #carbon label folder
-            else:
+            elif id=="p":
                 lPaths.append(f"{C.price}{v}.png") #prices folder
+            else:
+                lPaths.append(f"{C.items}{v}.png") #items folder
 
 
         # Create object with all the relevant variables
@@ -193,7 +200,7 @@ class Decision(Page):
         lPos = p.lPos
         treatment=p.sTreatment
       
-        lValues = [[player.P1,player.P2],[player.S1,player.S2]]
+        lValues = [[player.I1,player.I2],[player.P1,player.P2],[player.S1,player.S2]]
         print(lValues)
         return dict(
             lAttr = attributeList(lValues,lPos,treatment), #treatment
