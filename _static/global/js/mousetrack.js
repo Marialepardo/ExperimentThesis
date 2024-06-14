@@ -84,16 +84,45 @@ function updateMT(id) {
 // returns:         void
 // *********************************************************************
 
-
-function hideEverything() {
+// Original function
+// function hideEverything() {
     // get all elements to be hidden
-    lTgt = document.getElementsByClassName('mt-tgt');
+    // lTgt = document.getElementsByClassName('mt-tgt');
     // add hidden class
-    for (let i=0;i<lTgt.length; i++) {
-        lTgt[i].classList.add('hide');
-    }
+    //for (let i=0;i<lTgt.length; i++) {
+     //   lTgt[i].classList.add('hide');
+ //   }
 
+//}
+
+//New function so that the first row is not hidden 
+function hideEverything() {
+    var tableContainer = document.getElementById('table-container');
+    var rows = tableContainer.getElementsByClassName('row');
+    
+    // Iterate through all rows to identify and hide the second and third rows of lValues
+    for (let i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var cells = row.getElementsByClassName('mt-tgt');
+        
+        // Check if the row contains lValues by the presence of mt-tgt cells
+        if (cells.length > 0) {
+            // Hide cells in the second and third rows (i == 1 and i == 2 for zero-based index)
+            if (i == 1 || i == 2) {
+                for (let j = 0; j < cells.length; j++) {
+                    cells[j].classList.add('hide');
+                }
+            } else {
+                for (let j = 0; j < cells.length; j++) {
+                    cells[j].classList.remove('hide');
+                }
+            }
+        }
+    }
 }
+
+// here it ends 
+
 
 // *********************************************************************
 // Function Name:   activateMT

@@ -53,8 +53,8 @@ class Player(BasePlayer): #Here we fill out our data model (table) for our playe
     # DVs
     sChoice     = models.StringField()
     dRT_dec     = models.FloatField()
-    iConfidence = models.IntegerField()
-    dRT_conf    = models.FloatField()
+    #iConfidence = models.IntegerField()
+    #dRT_conf    = models.FloatField()
 
     # 
     I1=models.IntegerField() #item 1
@@ -78,7 +78,7 @@ class Player(BasePlayer): #Here we fill out our data model (table) for our playe
 
 
     # Others 
-    sBetweenBtn = models.StringField() #Assuming this means seconds between button
+    sBetweenBtn = models.StringField() #the button between rounds 
     lRoundOrder = models.StringField()  # To store the randomized round order
  
 
@@ -190,8 +190,8 @@ def attributeList(lValues,lPos,treatment):
 # PAGES
 class Decision(Page):
     form_model      = 'player'
-    form_fields     = [ 'sChoice']
-    form_fields     = [ 'sStartDec','sEndDec', 'dRT_dec', 'sNames', 'sDT' , 'sChoice'] #'dTime2first'
+    #form_fields     = ['sChoice']
+    form_fields     = ['sStartDec','sEndDec', 'dRT_dec', 'sNames', 'sDT' , 'sChoice'] #'dTime2first'
     
     @staticmethod
     def vars_for_template(player: Player): # vars_for_template passes variables to the template so you can access them there
@@ -205,6 +205,15 @@ class Decision(Page):
         return dict(
             lAttr = attributeList(lValues,lPos,treatment), #treatment
         )
+    
+    def get_template_name(player: Player):
+        treatment = player.participant.sTreatment
+        if treatment == 'price_prime':
+            return 'Task/Decision_control.html' #'Task/Decision_price_prime.html'
+        elif treatment == 'sustainability_prime':
+            return 'Task/Decision_control.html' #'Task/Decision_sustainability_prime.html'
+        else:
+            return 'Task/Decision_control.html'
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -235,7 +244,7 @@ class SideButton(Page):
 
 class Confidence(Page):
     form_model      = 'player'
-    form_fields     = [ 'sStartConf','sEndConf', 'dRT_conf','iConfidence']
+    form_fields     = ['sStartConf','sEndConf', 'dRT_conf','iConfidence']
     template_name   = 'global/Confidence.html'
     
     @staticmethod
