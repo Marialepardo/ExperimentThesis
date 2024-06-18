@@ -7,7 +7,6 @@ doc = """
 Your app description
 """
 
-
 class C(BaseConstants): #app’s parameters and constants that do not vary from player to player.
     NAME_IN_URL = 'Task'
     PLAYERS_PER_GROUP = None
@@ -33,13 +32,6 @@ class C(BaseConstants): #app’s parameters and constants that do not vary from 
         }
 
 
-    # Confidence page ##Probably not going to use confidence ratings 
-    #iLikertConf     = 7
-    #sConfQuestion   = f"From 1 to {iLikertConf}, how confident are you on your choice?"
-    #sLeftConf       = "Very unsure"
-    #sRightConf      = "Very sure"
-
-
 class Subsession(BaseSubsession):
     pass
 
@@ -52,8 +44,6 @@ class Player(BasePlayer): #Here we fill out our data model (table) for our playe
     # DVs
     sChoice     = models.StringField()
     dRT_dec     = models.FloatField()
-    #iConfidence = models.IntegerField()
-    #dRT_conf    = models.FloatField()
 
     # 
     I1=models.IntegerField() #item 1
@@ -72,14 +62,10 @@ class Player(BasePlayer): #Here we fill out our data model (table) for our playe
     sEndDec     = models.StringField()
     sStartCross = models.StringField()
     sEndCross   = models.StringField()
-    #sStartConf = models.StringField() 
-    #sEndConf   = models.StringField()
-
 
     # Others 
-    sBetweenBtn = models.StringField() #the button between rounds 
-    lRoundOrder = models.StringField()  # To store the randomized round order
- 
+    sBetweenBtn = models.StringField() #the 'continue' button between rounds 
+    lRoundOrder = models.StringField() # To store the randomized round order
 
 def creating_session(subsession):
     # Load Session variables
@@ -88,8 +74,7 @@ def creating_session(subsession):
         for player in subsession.get_players():
             p = player.participant #setting treatment on participant not player 
             
-            ###Counterbalancing the order of attributes
-
+    #Counterbalancing the order of attributes
         # Attributes
             attr_pairs = [('i', 'Product'), ('p', 'Price'), ('s', 'Sustainability')]
         
@@ -108,11 +93,12 @@ def creating_session(subsession):
             p.session.vars['lAttrID'] = list(lAttrID)
             p.session.vars['lAttrNames'] = list(lAttrNames)
 
-            lPos = list(lAttrID)  #C.lAttrID[:]         # Create hard copy of attributes (price and sustainability)
-            #random.shuffle(lPos)        # Shuffle order
+         # Create hard copy of attributes (price and sustainability)
+            lPos = list(lAttrID)  #C.lAttrID[:]
+            #random.shuffle(lPos)        # Shuffle order 
             p.lPos = lPos               # Store it as a participant variable
             #### Select trial for payment (from the first round after practice rounds to the last)
-            p.iSelectedTrial = random.randint(C.NUM_PROUNDS+1,C.NUM_ROUNDS)
+            #p.iSelectedTrial = random.randint(C.NUM_PROUNDS+1,C.NUM_ROUNDS)
            
            # This is not necessary! You can just call upon it once (in the informed consent)
            #randomizing assignment to one of the three conditions 
@@ -146,7 +132,6 @@ def creating_session(subsession):
     37: [3, 1, 1, 0, 3, 1], 38: [7, 9, 10, 11, 7, 9]
 }
 
-
     for player in subsession.get_players():
         p = player.participant
         player.sBetweenBtn = random.choice(['left', 'right']) #Randomly assign 'left' or 'right' to sBetweenBtn
@@ -158,11 +143,11 @@ def creating_session(subsession):
             # Practice Trials
             print(player.round_number, "practice")  
             if player.round_number == 1:
-                lValues = [1,2, 4,0, 1,2] #Preset values for round 1 
+                lValues = [1,2, 2,0, 1,2] #Preset values for round 1 
             elif player.round_number == 2:
-                lValues = [1,2, 4,0, 1,2] #Preset values for round 2 
+                lValues = [1,2, 3,0, 2,3] #Preset values for round 2 
             elif player.round_number == 3:
-                lValues = [1,2, 4,0, 1,2] #Preset values for round 3 
+                lValues = [1,2, 4,0, 3,4] #Preset values for round 3 
         else:
             print(player.round_number, "normal") #normal rounds randomized 
             if randomized_round in lValuesMap:
@@ -179,7 +164,8 @@ def attributeList(lValues,lPos,treatment):
     for i in range(len(C.lAttrID)): #where lAttrID = ['p','s']
         id                  = C.lAttrID[i]      
         name                = C.lAttrNames[i]
-        #productname        = C.product[i]  
+        #is_price = (name == 'Price')  # Check if this attribute is 'Price' (important for HTML template)
+
         # Store the order of the list
         lOrder.append(lPos.index(id))
         lPaths = [] #Creates an empty list lPaths to store image paths.
@@ -197,12 +183,13 @@ def attributeList(lValues,lPos,treatment):
             'id'        : id,
             'name'      : name,
             'lValues'   : lPaths,
-            #'productname' : productname
+            #'is_price': is_price  # Include price identification (important for HTML template)
         }
         lAttributes.append(Attr)
     
     lFinal = [ lAttributes[x] for x in lOrder]
     return lFinal
+
 
 
 
@@ -233,9 +220,9 @@ class Decision(Page):
     def get_template_name(player: Player):
         treatment = player.participant.sTreatment
         if treatment == 'price_prime':
-            return 'Task/Decision_control.html' #'Task/Decision_price_prime.html'
+            return 'Task/Decision_price_prime.html' #'Task/Decision_price_prime.html' 'Task/Decision_control.html'
         elif treatment == 'sustainability_prime':
-            return 'Task/Decision_control.html' #'Task/Decision_sustainability_prime.html'
+            return 'Task/Decision_sus_prime.html' #'Task/Decision_sustainability_prime.html'
         else:
             return 'Task/Decision_control.html'
 
@@ -243,9 +230,10 @@ class Decision(Page):
     def before_next_page(player: Player, timeout_happened):
         p = player.participant
         
-        if player.round_number == p.iSelectedTrial: 
-            p.bChoseA = player.iChooseB == '0'   
-            print(f"Decision in selected trial recorded: {p.bChoseA}")
+        #Maybe add this back in 
+        #if player.round_number == p.iSelectedTrial: 
+         #   p.bChoseA = player.iChooseB == '0'   
+          #  print(f"Decision in selected trial recorded: {p.bChoseA}")
     
 
 class FixCross(Page):

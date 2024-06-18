@@ -33,8 +33,10 @@
         <div class="img-container"> <!--change to example of decision screen for other conditions -->
             {{if control}}
             <div class="img-container"> <img src="{{ static C.example_control }}" class="img-instructions" alt="example of decision screen" id="img-example"> </div>
+            {{elif price_prime}}
+            <div class="img-container"> <img src="{{ static C.example_price_prime}}" class="img-instructions" alt="example of decision screen" id="img-example2"> </div>
             {{else}}
-            <div class="img-container"> <img src="{{ static C.example_control }}" class="img-instructions" alt="example of decision screen" id="img-example2"> </div>
+            <div class="img-container"> <img src="{{ static C.example_sus_prime}}" class="img-instructions" alt="example of decision screen" id="img-example2"> </div>
             {{endif}}
         </div>
     </div>
@@ -79,10 +81,13 @@
 
     <!-- Slide 5: Purchasing Platform -->
     <div class="slide">
-        <div class="text-container">
+
+         <!--Gif instead of Hover MAKE GIF OF HOVERING for the other conditions and add to if statement--> 
+         {{if control}}
+         <div class="text-container">
             <h2> Purchasing Platform </h2>
             <p> 
-                The product characteristics (Price, Quality) for each product will be hidden.
+                The product characteristics (Price, Sustainability) for each product will be hidden.
             </p>
             <p>
             To reveal the information, all you need to do is to move your mouse on top of it, and the information will be revealed. 
@@ -91,11 +96,36 @@
                 <div class="greenbold">Here is an example.</div>
              </p>
          </div>
-         <!--Gif instead of Hover MAKE GIF OF HOVERING for the other conditions and add to if statement--> 
-         {{if control}}
             <div class="img-container"> <img class="gif-instructions" src="{% static C.example_control %}" /> </div>
-         {{else}}   
-            <div class="img-container"> <img class="gif-instructions" src="{% static C.example_control %}" /> </div>
+         {{elif price_prime}}   
+         <div class="text-container">
+            <h2> Purchasing Platform </h2>
+            <p> 
+                The product characteristics (Price, Sustainability) for each product will be hidden.
+            </p>
+            <p>
+            At the beginning of the round, the <b>price information will be revealed for a random amount of time (between 2-4 seconds)</b>. After this the information will be hidden. 
+            To reveal the information, all you need to do is to move your mouse on top of it, and the information will be revealed. 
+            </p>
+             <p>
+                <div class="greenbold">Here is an example.</div>
+             </p>
+         </div>
+            <div class="img-container"> <img class="gif-instructions" src="{% static C.example_price_prime %}" /> </div>
+        {{else}}
+        <div class="text-container">
+            <h2> Purchasing Platform </h2>
+            <p> 
+                The product characteristics (Price, Sustainability) for each product will be hidden.
+            </p>
+            <p>
+                At the beginning of the round, the <b>sustainability information will be revealed for a random amount of time (between 2-4 seconds)</b>. After this the information will be hidden. 
+                To reveal the information, all you need to do is to move your mouse on top of it, and the information will be revealed.             </p>
+             <p>
+                <div class="greenbold">Here is an example.</div>
+             </p>
+         </div>
+            <div class="img-container"> <img class="gif-instructions" src="{% static C.example_sus_prime %}" /> </div>
          {{endif}}
     </div>
 

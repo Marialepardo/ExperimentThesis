@@ -1,11 +1,11 @@
 {{ extends "global/Page.html" }}
 
 {{ block styles }}
-    <link href="{% static 'global/css/mousetrack.css' %}" rel="stylesheet">
+    <link href="{% static 'global/css/mousetrack_price_prime.css' %}" rel="stylesheet">
 {{ endblock }}
 
 {{ block scripts }}
-    <script src="{% static 'global/js/mousetrack.js' %}"></script>  
+    <script src="{% static 'global/js/mousetrack_sus_prime.js' %}"></script>  
 
 {{ endblock }}
 
@@ -24,7 +24,7 @@
     <div class="row" id="row-{{ attr.id }}">
         <div class="table-item right row-name" > {{ attr.name }} </div>
         {{ for v in attr.lValues }}
-        <div class="table-item mt-tgt cell cell-{{attr.id}}{{ forloop.counter }} row-{{attr.id}} col-{{forloop.counter}} hide " id="cell-{{attr.id}}{{ forloop.counter }}">
+        <div class="table-item mt-tgt cell cell-{{ attr.id }}{{ forloop.counter }} row-{{ attr.id }} col-{{ forloop.counter }}{% if attr.id == 'p' %} hide{% endif %}" id="cell-{{ attr.id }}{{ forloop.counter }}">
             <img src="{{ static v }}" class="img-button">
         </div>
         {{ endfor }}

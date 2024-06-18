@@ -23,6 +23,9 @@ class C(BaseConstants):
     iBonus              = '1.5 euros'
     ## Symbols directory 
     example_control = "global/figures/example_control.GIF"
+    example_price_prime = "global/figures/example_price_prime.gif"
+    example_sus_prime = "global/figures/example_sus_prime.gif"
+
     carbon_green       = "global/figures/carbon/carbon_1.png"
     carbon_red      = "global/figures/carbon/carbon_3.png"
     circled_task = "global/figures/circled.png"
@@ -86,7 +89,8 @@ class Instructions(Page):
     def vars_for_template(player: Player):
         p = player.participant
         return dict(  
-            control =  p.sTreatment =="control"
+            control= p.sTreatment =="control",
+            price_prime=p.sTreatment =="price_prime"
 
         )
 
