@@ -14,7 +14,7 @@ class C(BaseConstants):
     # File location
     sQuestPath = '_static/global/files/questions.json'
     # Message
-    sMessage = 'The main task of the experiment has ended. Now we will ask you to answer a brief questionnaire. After the questionnaire we will inform you if you have been selected for the bonus payment.'
+    sMessage = 'The main task of the experiment has ended. Now we will ask you to answer a brief questionnaire. At the end of the questionnaire you can choose to provide your email to participate in the chance to get your product and money.'
     # Questions 
     text_file = open(sQuestPath)
     lQuestions = json.load(text_file)['lQuestions']

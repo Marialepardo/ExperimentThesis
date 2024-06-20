@@ -25,7 +25,7 @@
         "list": "countryList"
     },
     {
-        "question": "What is your monthly net household income, i.e., how much money do you have available in your household per month for living expenses after deducting taxes and social security contributions? Please select your net household income from the menu.",
+        "question": "What is your monthly net household income, i.e., how much money do you have available in your household per month for living expenses? Please select your net household income from the menu.",
         "name": "income",
         "type": "radio",
         "direction": "horizontal wrap",
@@ -65,7 +65,7 @@
         "labels": ["Never true", "Rarely true", "Sometimes true", "Mostly true", "Always true"]
     },
     {
-        "question": "I have paid more for environmentally friendly products when there is a cheaper alternative",
+        "question": "I have paid more for environmentally friendly products even when there is a cheaper alternative",
         "name": "Environmental_attitudes_9_paymore",
         "type": "radio",
         "direction": "horizontal wrap",
@@ -135,7 +135,7 @@
         "blank": "True"   
     },
     {
-        "question": "To the best of your ability please provide an estimate of what the monetary cost (in euros) is of one kg of carbon emissions.')",
+        "question": "To the best of your ability please provide an estimate of what the monetary cost (in euros) is of one kg of carbon emissions.)",
         "name": "cost_open",
         "type": "longOpen",
         "blank": "True"   
