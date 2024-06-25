@@ -27,7 +27,7 @@ SESSION_CONFIGS = [
         name='Session',
         app_sequence=['InformedConsent','Instructions','Task','Questionnaire'],
         num_demo_participants=1,
-        treatment = 'random', # Randomize between-subject treatment. 
+        treatment = 'control', # Randomize between-subject treatment. 
     ),
 ]
 

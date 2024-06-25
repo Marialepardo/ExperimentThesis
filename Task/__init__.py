@@ -10,7 +10,7 @@ Your app description
 class C(BaseConstants): #app’s parameters and constants that do not vary from player to player.
     NAME_IN_URL = 'Task'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 38
+    NUM_ROUNDS = 41
     NUM_PROUNDS = 3
     
     # Images 
@@ -201,7 +201,6 @@ def attributeList(lValues,lPos,treatment):
 # PAGES
 class Decision(Page):
     form_model      = 'player'
-    #form_fields     = ['sChoice']
     form_fields     = ['sStartDec','sEndDec', 'dRT_dec', 'sNames', 'sDT' , 'sChoice'] #'dTime2first'
     
     @staticmethod
@@ -229,7 +228,12 @@ class Decision(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         p = player.participant
-        
+        # Log the values to ensure they are being captured correctly
+        print('Before next page values:', {
+            'sNames': player.sNames,
+            'sDT': player.sDT,
+            'sChoice': player.sChoice
+        })
         #Maybe add this back in 
         #if player.round_number == p.iSelectedTrial: 
          #   p.bChoseA = player.iChooseB == '0'   
@@ -257,7 +261,7 @@ class SideButton(Page):
 
 class Confidence(Page):
     form_model      = 'player'
-    form_fields     = ['sStartConf','sEndConf', 'dRT_conf','iConfidence']
+    #form_fields     = ['sStartConf','sEndConf', 'dRT_conf','iConfidence']
     template_name   = 'global/Confidence.html'
     
     @staticmethod

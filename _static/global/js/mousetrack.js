@@ -1,3 +1,4 @@
+console.log('JavaScript file loaded');
 // Initialize global variables 
 var     lButtonsMT, timeEnter;
 var     sNames  = '';
@@ -27,6 +28,8 @@ window.addEventListener('DOMContentLoaded', () => {
         elem.addEventListener('click',()=>{
             console.log('dec')
             document.getElementById('sDec').value = dec;
+            document.getElementById('sNames').value = sNames;
+            document.getElementById('sDT').value = sDT;
             endPage();
         })
         
@@ -53,7 +56,8 @@ window.addEventListener('DOMContentLoaded', () => {
 // returns:         void
 // *********************************************************************
 
-function updateMT(id) {
+function updateMT() {
+    console.log('updateMT called with id:', id);
     // Store/update current time
     let now = new Date();
     let dt = now - timeEnter;
@@ -61,17 +65,20 @@ function updateMT(id) {
     // Save dwell time on AOI
     if (sDT.length>0) {
         sDT =  `${sDT},${dt}`;
+        sNames = `${sNames},${sCurrent}`;
     } else {
         sDT = `${dt}`;
+        sNames = `${sCurrent}`;
         // If first fixation, also record time to first fixation
         document.getElementById('time2first').value = timeEnter - dt - startTime;
     }
     // Update to current label
-    if (sNames.length>0) {
-        sNames = `${sNames},${sCurrent}`;
-    } else {
-        sNames = `${sCurrent}`;
-    }
+   // if (sNames.length>0) {
+     //   sNames = `${sNames},${id}`;
+    //} else {
+      //  sNames = `${id}`;
+        //console.log('sNames updated to:', sNames);
+    //}
 }
 
 // *********************************************************************
@@ -159,12 +166,15 @@ function CreateMT(elem,tgt) {
         elem.classList.add('hover');
         timeEnter = new Date();
         sCurrent = elem.id;
+        console.log('entering');
         activateMT(tgt)
     })
     elem.addEventListener("mouseleave", ()=>{
         elem.classList.remove('hover');
-        sCurrent = '';
+        sCurrent = elem.id;
         updateMT(elem.id)
+        console.log('leaving')
+        sCurrent = '';
         hideEverything();
     })
 }
@@ -185,5 +195,6 @@ function endDecPage(dec) {
     document.getElementById('iDec').value = dec;
     document.getElementById('sNames').value = sNames;
     document.getElementById('sDT').value = sDT;
+    console.log('endDecPage:', dec, sNames, sDT);
     endPage();
 }

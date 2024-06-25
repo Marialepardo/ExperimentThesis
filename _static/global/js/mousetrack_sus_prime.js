@@ -77,7 +77,7 @@ function disableMouseEvents() {
             document.removeEventListener(event, preventDefault, true);
         });
         console.log('Mouse events re-enabled');
-    }, Math.random() * 2000 + 2000); // Random delay between 2000ms and 4000ms
+    }, Math.random() * 2000 + 2000); // Random delay between 2000ms and 4000ms (save this number per round?)
 }
 
 function preventDefault(e) {
