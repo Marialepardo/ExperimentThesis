@@ -1,9 +1,11 @@
+console.log('JavaScript file loaded');
 // Initialize global variables 
 var     lButtonsMT, timeEnter;
 var     sNames  = '';
 var     sDT     = '';
 var     sCurrent = '';
 var     sTypeReveal = 'cell';
+var     timedelay = ''; 
 
 // When page is loaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -19,6 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
             CreateMT(elem, elem.id);
         });
     }, 4000);  // Wait for the maximum priming time before enabling interactions
+
 
     //lButtonsMT = document.getElementsByClassName(sTypeReveal);
     //for (let i=0; i<lButtonsMT.length; i++) {
@@ -38,10 +41,13 @@ window.addEventListener('DOMContentLoaded', () => {
         elem.addEventListener('click',()=>{
             console.log('dec')
             document.getElementById('sDec').value = dec;
+            document.getElementById('sNames').value = sNames;
+            document.getElementById('sDT').value = sDT;
             endPage();
         })
         
     }
+
     // Begin timer
     timeEnter = new Date();
     setInterval(()=>{
@@ -92,13 +98,24 @@ function preventDefault(e) {
 //                  function sets up the price priming mechanism for 2-4 seconds         
 // *********************************************************************
 
-function setupCellVisibility() {
-   var price_cells = ['#cell-s1', '#cell-s2'];  // target cells by their IDs (here s because it is sustainability prime condition)
+//function setupCellVisibility() {
+  // var price_cells = ['#cell-s1', '#cell-s2'];  // target cells by their IDs (here s because it is sustainability prime condition)
    // Initially show and then hide the image after a random time between 2-4 seconds
-   setTimeout(function() {
+   //setTimeout(function() {
+     //   $(price_cells.join(', ')).addClass('hide');  // Optionally add hide class after fade out
+   //}, timedelay = Math.random() * 2000 + 2000);  //* 2000 + 2000 Randomize time between 2-4 seconds
+//}
+
+function setupCellVisibility() {
+    var price_cells = ['#cell-s1', '#cell-s2'];  // target cells by their IDs
+    // Initially show and then hide the image after a random time between 2-4 seconds
+    timedelay = Math.random() * 2000 + 2000;  // Set timedelay
+    setTimeout(function() {
         $(price_cells.join(', ')).addClass('hide');  // Optionally add hide class after fade out
-   }, Math.random() * 2000 + 2000);  //* 2000 + 2000 Randomize time between 2-4 seconds
+        document.getElementById('timedelay').value = timedelay;  // Store timedelay in hidden input
+    }, timedelay);
 }
+
 
 // *********************************************************************
 // Function Name:   updateMT
@@ -110,7 +127,7 @@ function setupCellVisibility() {
 // returns:         void
 // *********************************************************************
 
-function updateMT(id) {
+function updateMT() {
     // Store/update current time
     let now = new Date();
     let dt = now - timeEnter;
@@ -118,16 +135,12 @@ function updateMT(id) {
     // Save dwell time on AOI
     if (sDT.length>0) {
         sDT =  `${sDT},${dt}`;
-    } else {
-        sDT = `${dt}`;
-        // If first fixation, also record time to first fixation
-        document.getElementById('time2first').value = timeEnter - dt - startTime;
-    }
-    // Update to current label
-    if (sNames.length>0) {
         sNames = `${sNames},${sCurrent}`;
     } else {
+        sDT = `${dt}`;
         sNames = `${sCurrent}`;
+        // If first fixation, also record time to first fixation
+        document.getElementById('time2first').value = timeEnter - dt - startTime;
     }
 }
 
@@ -195,12 +208,15 @@ function CreateMT(elem,tgt) {
         elem.classList.add('hover');
         timeEnter = new Date();
         sCurrent = elem.id;
+        console.log('entering');
         activateMT(tgt)
     })
     elem.addEventListener("mouseleave", ()=>{
         elem.classList.remove('hover');
-        sCurrent = '';
+        sCurrent = elem.id;
         updateMT(elem.id)
+        console.log('leaving')
+        sCurrent = '';
         hideEverything();
     })
 }
@@ -220,5 +236,6 @@ function endDecPage(dec) {
     document.getElementById('iDec').value = dec;
     document.getElementById('sNames').value = sNames;
     document.getElementById('sDT').value = sDT;
+    document.getElementById('timedelay').value = timedelay
     endPage();
 }

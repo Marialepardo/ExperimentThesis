@@ -56,6 +56,7 @@ class Player(BasePlayer): #Here we fill out our data model (table) for our playe
     # Attention variables
     sNames      = models.LongStringField(blank=True) 
     sDT         = models.LongStringField(blank=True)
+    timedelay   = models.FloatField(blank=True) #timedelay for treatment conditions 
 
     # # Timestamps
     sStartDec   = models.StringField()
@@ -66,6 +67,8 @@ class Player(BasePlayer): #Here we fill out our data model (table) for our playe
     # Others 
     sBetweenBtn = models.StringField() #the 'continue' button between rounds 
     lRoundOrder = models.StringField() # To store the randomized round order
+    treatment   = models.StringField() # To store treatment 
+    lPos        = models.StringField() # To store counterbalancing 
 
 def creating_session(subsession):
     # Load Session variables
@@ -97,6 +100,7 @@ def creating_session(subsession):
             lPos = list(lAttrID)  #C.lAttrID[:]
             #random.shuffle(lPos)        # Shuffle order 
             p.lPos = lPos               # Store it as a participant variable
+            print(f"position of attributes: {p.lPos}")
             #### Select trial for payment (from the first round after practice rounds to the last)
             #p.iSelectedTrial = random.randint(C.NUM_PROUNDS+1,C.NUM_ROUNDS)
            
@@ -108,33 +112,46 @@ def creating_session(subsession):
             else:
                 p.sTreatment = s.config['treatment']
                 print(f"Treatment assigned from config: {p.sTreatment}")  # Print the treatment from config
-
-            # Randomize the order of rounds
-            lRoundOrder = list(range(1, C.NUM_ROUNDS + 1))
-            random.shuffle(lRoundOrder)
-            p.lRoundOrder = ','.join(map(str, lRoundOrder))
+            
+            # Define the practice and real rounds
+            practice_rounds = list(range(1, C.NUM_PROUNDS + 1))
+            real_rounds = list(range(C.NUM_PROUNDS + 1, C.NUM_ROUNDS + 1))
+            
+            # Randomize the real rounds
+            random.shuffle(real_rounds)
+            
+            # Combine practice and real rounds
+            combined_rounds = practice_rounds + real_rounds
+            p.lRoundOrder = ','.join(map(str, combined_rounds))
             print(f"Round order for participant {p.id_in_session}: {p.lRoundOrder}")
+
 
         #fix values     
     lValuesMap = { 
     # nuts
-    1: [1, 2, 1, 0, 1, 2], 2: [1, 2, 2, 0, 1, 2], 3: [2, 1, 0, 3, 2, 1], 4: [1, 2, 4, 0, 1, 2],
-    5: [3, 2, 0, 1, 3, 2], 6: [3, 2, 0, 2, 3, 2], 7: [2, 3, 3, 0, 2, 3], 8: [2, 3, 4, 0, 2, 3],
-    9: [3, 1, 0, 1, 3, 1], 10: [3, 1, 0, 2, 3, 1], 11: [1, 3, 3, 0, 1, 3], 12: [1, 3, 4, 0, 1, 3],
+    4: [1, 2, 1, 0, 1, 2], 5: [1, 2, 2, 0, 1, 2], 6: [2, 1, 0, 3, 2, 1], 7: [1, 2, 4, 0, 1, 2],
+    8: [3, 2, 0, 1, 3, 2], 9: [3, 2, 0, 2, 3, 2], 10: [2, 3, 3, 0, 2, 3], 11: [2, 3, 4, 0, 2, 3],
+    12: [3, 1, 0, 1, 3, 1], 13: [3, 1, 0, 2, 3, 1], 14: [1, 3, 3, 0, 1, 3], 15: [1, 3, 4, 0, 1, 3],
     # sweets
-    13: [5, 4, 5, 6, 5, 4], 14: [4, 5, 7, 5, 4, 5], 15: [5, 4, 5, 8, 5, 4], 16: [4, 5, 9, 5, 4, 5],
-    17: [6, 5, 5, 6, 6, 5], 18: [5, 6, 7, 5, 5, 6], 19: [6, 5, 5, 8, 6, 5], 20: [5, 6, 9, 5, 5, 6],
-    21: [6, 4, 5, 6, 6, 4], 22: [4, 6, 7, 5, 4, 6], 23: [6, 4, 5, 8, 6, 4], 24: [4, 6, 9, 5, 4, 6],
+    16: [5, 4, 5, 6, 5, 4], 17: [4, 5, 7, 5, 4, 5], 18: [5, 4, 5, 8, 5, 4], 19: [4, 5, 9, 5, 4, 5],
+    20: [6, 5, 5, 6, 6, 5], 21: [5, 6, 7, 5, 5, 6], 22: [6, 5, 5, 8, 6, 5], 23: [5, 6, 9, 5, 5, 6],
+    24: [6, 4, 5, 6, 6, 4], 25: [4, 6, 7, 5, 4, 6], 26: [6, 4, 5, 8, 6, 4], 27: [4, 6, 9, 5, 4, 6],
     # muesli
-    25: [8, 7, 10, 11, 8, 7], 26: [8, 7, 10, 12, 8, 7], 27: [8, 7, 10, 13, 8, 7], 28: [7, 8, 14, 10, 7, 8],
-    29: [8, 9, 11, 10, 8, 9], 30: [9, 8, 10, 12, 9, 8], 31: [8, 9, 13, 10, 8, 9], 32: [9, 8, 10, 14, 9, 8],
-    33: [9, 7, 10, 11, 9, 7], 34: [7, 9, 12, 10, 7, 9], 35: [9, 7, 10, 13, 9, 7], 36: [9, 7, 10, 14, 9, 7],
-    37: [3, 1, 1, 0, 3, 1], 38: [7, 9, 10, 11, 7, 9]
+    28: [8, 7, 10, 11, 8, 7], 29: [8, 7, 10, 12, 8, 7], 30: [8, 7, 10, 13, 8, 7], 31: [7, 8, 14, 10, 7, 8],
+    32: [8, 9, 11, 10, 8, 9], 33: [9, 8, 10, 12, 9, 8], 34: [8, 9, 13, 10, 8, 9], 35: [9, 8, 10, 14, 9, 8],
+    36: [9, 7, 10, 11, 9, 7], 37: [7, 9, 12, 10, 7, 9], 38: [9, 7, 10, 13, 9, 7], 39: [9, 7, 10, 14, 9, 7],
+    40: [3, 1, 1, 0, 3, 1], 41: [7, 9, 10, 11, 7, 9]
 }
 
     for player in subsession.get_players():
         p = player.participant
         player.sBetweenBtn = random.choice(['left', 'right']) #Randomly assign 'left' or 'right' to sBetweenBtn
+        player.treatment = p.sTreatment #this to save treatment condition
+        player.lRoundOrder = p.lRoundOrder #this to save round order
+        #player.lPos = p.lPos #save counterbalancing
+        player.lPos = ','.join(p.lPos)  # Convert list to a comma-separated string
+
+
         current_round = subsession.round_number
         lRoundOrder = list(map(int, p.lRoundOrder.split(',')))
         randomized_round = lRoundOrder[current_round - 1]
@@ -145,9 +162,9 @@ def creating_session(subsession):
             if player.round_number == 1:
                 lValues = [1,2, 2,0, 1,2] #Preset values for round 1 
             elif player.round_number == 2:
-                lValues = [1,2, 3,0, 2,3] #Preset values for round 2 
+                lValues = [4,5, 3,0, 2,3] #Preset values for round 2 
             elif player.round_number == 3:
-                lValues = [1,2, 4,0, 3,4] #Preset values for round 3 
+                lValues = [8,9, 4,0, 3,4] #Preset values for round 3 
         else:
             print(player.round_number, "normal") #normal rounds randomized 
             if randomized_round in lValuesMap:
@@ -157,14 +174,13 @@ def creating_session(subsession):
 
         player.I1, player.I2, player.P1,player.P2, player.S1,player.S2 = lValues
     
-def attributeList(lValues,lPos,treatment):
+def attributeList(lValues,lPos,Treat):
     lAttributes = []
     lOrder = []
 
     for i in range(len(C.lAttrID)): #where lAttrID = ['p','s']
         id                  = C.lAttrID[i]      
         name                = C.lAttrNames[i]
-        #is_price = (name == 'Price')  # Check if this attribute is 'Price' (important for HTML template)
 
         # Store the order of the list
         lOrder.append(lPos.index(id))
@@ -194,14 +210,10 @@ def attributeList(lValues,lPos,treatment):
 
 
 
-
-
-
-
 # PAGES
 class Decision(Page):
     form_model      = 'player'
-    form_fields     = ['sStartDec','sEndDec', 'dRT_dec', 'sNames', 'sDT' , 'sChoice'] #'dTime2first'
+    form_fields     = ['sStartDec','sEndDec', 'dRT_dec', 'sNames', 'sDT' , 'sChoice', 'timedelay'] #'dTime2first'
     
     @staticmethod
     def vars_for_template(player: Player): # vars_for_template passes variables to the template so you can access them there
@@ -209,11 +221,12 @@ class Decision(Page):
         p = player.participant
         lPos = p.lPos
         treatment=p.sTreatment
+
       
         lValues = [[player.I1,player.I2],[player.P1,player.P2],[player.S1,player.S2]]
         print(lValues)
         return dict(
-            lAttr = attributeList(lValues,lPos,treatment), #treatment
+            lAttr = attributeList(lValues,lPos,treatment),
         )
     
     def get_template_name(player: Player):

@@ -57,7 +57,6 @@ window.addEventListener('DOMContentLoaded', () => {
 // *********************************************************************
 
 function updateMT() {
-    console.log('updateMT called with id:', id);
     // Store/update current time
     let now = new Date();
     let dt = now - timeEnter;
