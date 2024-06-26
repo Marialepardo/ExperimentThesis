@@ -3,6 +3,7 @@ psycopg2>=2.8.4
 pandas>=2.2.2
 numpy>=1.26.4
 Django==5.0.6
+gunicorn==20.1.0
 
 ### Task
 #numpy.random
