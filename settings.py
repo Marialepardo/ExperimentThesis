@@ -48,6 +48,16 @@ PARTICIPANT_FIELDS = [
 ]
 SESSION_FIELDS = []
 
+ROOMS = [
+    {
+        'name': 'experiment',
+        'display_name': 'Welcome to experiment',
+        #'participant_label_file': '_rooms/econ101.txt',
+        'use_secure_urls': False,
+    },
+]
+
+
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
 LANGUAGE_CODE = 'en'
@@ -65,3 +75,5 @@ ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
 DEMO_PAGE_INTRO_HTML = """ """
 
 SECRET_KEY = '1246798765423456432'
+
+
