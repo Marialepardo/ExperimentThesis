@@ -48,14 +48,14 @@ PARTICIPANT_FIELDS = [
 ]
 SESSION_FIELDS = []
 
-ROOMS = [
-    {
-        'name': 'experiment',
-        'display_name': 'Welcome to experiment',
+#ROOMS = [
+    #{
+        #name': 'experiment',
+       # 'display_name': 'Welcome to experiment',
         #'participant_label_file': '_rooms/econ101.txt',
-        'use_secure_urls': False,
-    },
-]
+       # 'use_secure_urls': False,
+  #  },
+#]
 
 
 # ISO-639 code
