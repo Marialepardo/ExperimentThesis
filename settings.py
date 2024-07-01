@@ -48,6 +48,16 @@ PARTICIPANT_FIELDS = [
 ]
 SESSION_FIELDS = []
 
+ROOMS = [
+    dict(
+        name='thesiscode',
+        display_name='Experiment Ale',
+    ),
+]
+
+OTREE_PRODUCTION = environ.get('OTREE_PRODUCTION', '1') == '1'
+
+DEBUG = False
 #ROOMS = [
     #{
         #name': 'experiment',
