@@ -50,7 +50,7 @@ SESSION_FIELDS = []
 
 ROOMS = [
     dict(
-        name='thesiscode',
+        name='thesiscode paid',
         display_name='Experiment Ale',
     ),
 ]
